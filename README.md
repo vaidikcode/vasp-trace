@@ -1,36 +1,43 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# VASPTrace
 
-## Getting Started
+VASPTrace is a frontend-only investigation prototype for Smart India Hackathon problem statement 26182. It demonstrates a focused analyst workflow:
 
-First, run the development server:
+`reported transaction → observed fund-flow path → evidence-supported VASP lead → reviewable report`
+
+## Run locally
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
+bun install
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000). For a production check:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+bun run lint
+bunx tsc --noEmit
+bun run build
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## What the demo shows
 
-## Learn More
+- A two-hop path reaching a supported exchange deposit endpoint.
+- A split path with one supported endpoint and one unresolved bridge boundary.
+- A no-result case where the interface retains the trace without inventing a provider.
+- Case switching, graph pan/zoom, endpoint evidence review, JSON evidence download and print-friendly report output.
 
-To learn more about Next.js, take a look at the following resources:
+The **Run demo trace** control only replays a visual workflow. The prototype does not make network calls, trace real wallets, collect personal data, contact providers, integrate with SAHYOG, or freeze assets.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Data and evidence model
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+All addresses, services, transaction hashes, amounts and evidence assertions are synthetic fixtures in `src/data/cases.ts`. “Strong” means the local demo fixture contains role-specific supporting information; it is not a real-world confidence score or legal conclusion.
 
-## Deploy on Vercel
+A downstream VASP endpoint is an investigative lead. It does not prove the owner of the reported wallet, identify a customer, establish an offence, or guarantee asset recovery.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Future integration points
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The UI is deliberately separated from its fixtures so a future version can add chain adapters for indexed transfer history, licensed attribution providers with dated source records, bounded graph traversal, case authentication and governed evidence storage, and authorized agency-request integration.
+
+## Stack
+
+Next.js App Router, TypeScript, Bun, Tailwind CSS, React Flow and Lucide icons.
